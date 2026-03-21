@@ -129,8 +129,31 @@ body{
 }
 
 /* MAP */
+
 #map {
- height: 400px;
- width: 80vh;
- 
+  height: 400px;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 12px;
+}
+
+.map-style-buttons{
+  margin-top:10px;
+}
+
+.map-style-buttons button{
+  padding:6px 12px;
+  margin-right:6px;
+  cursor:pointer;
+  border:none;
+  background-color:#333;
+  color:white;
+  border-radius:6px;
+  transition:0.3s;
+}
+
+.map-style-buttons button:hover{
+  background-color:white;
+  color:black;
+  border:1px solid #333;
 }

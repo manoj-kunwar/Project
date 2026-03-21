@@ -1,0 +1,34 @@
+<% layout("layouts/boilerplate") %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <a href="/help" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Help Centre
+      </a>
+      <h2 class="fw-bold mb-4"><i class="fa-solid fa-house me-2" style="color:#ff385c;"></i>Your Home</h2>
+      <div class="accordion" id="homeAccordion">
+        <% [
+          ['How do I list my property?', 'Click "Become a host" in the navbar, fill in your property details including title, description, photos, price, and location, then submit.'],
+          ['How do I edit my listing?', 'Go to your listing page and click the Edit button. You can update any details including photos, price, and availability.'],
+          ['How do I set my price?', 'On the edit listing page, update the price per night field. Consider local demand and similar listings when pricing.'],
+          ['How do I delete my listing?', 'Go to your listing page and click the Delete button. This action is permanent and cannot be undone.'],
+          ['Can I have multiple listings?', 'Yes! You can create as many listings as you want from the "Add your home" option in your account menu.'],
+        ].forEach(([q, a], i) => { %>
+          <div class="accordion-item border-0 mb-2 rounded-3 shadow-sm overflow-hidden">
+            <h2 class="accordion-header">
+              <button class="accordion-button <%= i > 0 ? 'collapsed' : '' %> fw-semibold rounded-3"
+                      type="button" data-bs-toggle="collapse"
+                      data-bs-target="#home<%= i %>">
+                <%= q %>
+              </button>
+            </h2>
+            <div id="home<%= i %>" class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>"
+                 data-bs-parent="#homeAccordion">
+              <div class="accordion-body text-muted"><%= a %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>

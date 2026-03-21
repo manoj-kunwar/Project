@@ -1,0 +1,86 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <a href="/listings" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Home
+      </a>
+
+      <h2 class="fw-bold mb-1">
+        <i class="fa-solid fa-lock me-2" style="color:#ff385c;"></i>Privacy Policy
+      </h2>
+      <p class="text-muted mb-4">
+        Last updated: <%= new Date().toLocaleDateString('en-US', { day:'numeric', month:'long', year:'numeric' }) %>
+      </p>
+
+      <!-- Intro -->
+      <div class="card border-0 bg-light rounded-4 p-4 mb-4">
+        <p class="text-muted mb-0" style="line-height:1.8; font-size:0.92rem;">
+          Welcome to Wanderlust. We are committed to protecting your personal information
+          and your right to privacy. This Privacy Policy explains how we collect, use,
+          and share information about you when you use our services.
+        </p>
+      </div>
+
+      <!-- Sections -->
+      <% [
+        ['fa-database', 'Information We Collect',
+          'We collect information you provide directly to us, such as when you create an account, list a property, make a booking, or contact us for support. This includes your name, email address, username, and password. We also collect information automatically when you use our services, such as your IP address, browser type, and pages visited.'],
+
+        ['fa-circle-info', 'How We Use Your Information',
+          'We use the information we collect to provide, maintain, and improve our services; process bookings and payments; send you technical notices and support messages; respond to your comments and questions; and send you marketing communications (with your consent).'],
+
+        ['fa-share-nodes', 'How We Share Your Information',
+          'We do not sell your personal information. We may share your information with hosts or guests as necessary to facilitate bookings, with service providers who assist us in operating our platform, or when required by law. We require all third parties to respect the security of your data.'],
+
+        ['fa-cookie', 'Cookies',
+          'We use cookies and similar tracking technologies to track activity on our service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, some parts of our service may not function properly.'],
+
+        ['fa-shield-halved', 'Data Security',
+          'We take reasonable measures to help protect information about you from loss, theft, misuse, unauthorized access, disclosure, alteration, and destruction. All data is transmitted using SSL encryption. However, no security system is impenetrable and we cannot guarantee the security of our systems.'],
+
+        ['fa-child', 'Children\'s Privacy',
+          'Our service is not directed to children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If you become aware that a child has provided us with personal data, please contact us immediately.'],
+
+        ['fa-pen-to-square', 'Your Rights',
+          'You have the right to access, update, or delete the information we have on you. You can update your account information at any time by logging into your account. To request deletion of your data, please contact our support team.'],
+
+        ['fa-rotate', 'Changes to This Policy',
+          'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. Your continued use of our service after changes are posted constitutes your acceptance of the updated policy.'],
+
+      ].forEach(([icon, title, content]) => { %>
+        <div class="mb-4">
+          <h5 class="fw-bold mb-2">
+            <i class="fa-solid <%= icon %> me-2" style="color:#ff385c; font-size:0.95rem;"></i>
+            <%= title %>
+          </h5>
+          <p class="text-muted" style="font-size:0.92rem; line-height:1.8;"><%= content %></p>
+          <hr class="text-muted opacity-25" />
+        </div>
+      <% }) %>
+
+      <!-- Contact -->
+      <div class="card border-0 bg-light rounded-4 p-4 text-center">
+        <h6 class="fw-bold mb-2">Questions about our Privacy Policy?</h6>
+        <p class="text-muted mb-3" style="font-size:0.88rem;">
+          Contact our privacy team at
+          <a href="mailto:privacy@wanderlust.com" style="color:#ff385c;">
+            privacy@wanderlust.com
+          </a>
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn rounded-3 fw-semibold px-4"
+                  style="background:#ff385c; color:#fff; border:none;">
+            <i class="fa-solid fa-envelope me-2"></i>Contact Privacy Team
+          </button>
+          <a href="/terms" class="btn btn-outline-dark rounded-3 fw-semibold px-4">
+            <i class="fa-solid fa-file-lines me-2"></i>View Terms
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

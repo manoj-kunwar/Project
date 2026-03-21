@@ -1,0 +1,154 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <a href="/help" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Help Centre
+      </a>
+
+      <h2 class="fw-bold mb-2">
+        <i class="fa-solid fa-user me-2" style="color:#ff385c;"></i>Account & Profile
+      </h2>
+      <p class="text-muted mb-4">Manage your account, settings, and profile information.</p>
+
+      <!-- Quick action cards -->
+      <div class="row g-3 mb-5">
+        <% [
+          ['fa-right-to-bracket', 'Log In',     'Access your Wanderlust account',       '/login'],
+          ['fa-user-plus',        'Sign Up',     'Create a new Wanderlust account',      '/signup'],
+          ['fa-house-chimney',    'Add Listing', 'List your property on Wanderlust',     '/listings/new'],
+          ['fa-right-from-bracket','Log Out',    'Sign out of your account',             '/logout'],
+        ].forEach(([icon, title, desc, href]) => { %>
+          <div class="col-md-6">
+            <a href="<%= href %>" class="text-decoration-none">
+              <div class="card border-0 shadow-sm rounded-4 p-3 h-100 d-flex flex-row align-items-center gap-3"
+                   style="transition:transform 0.2s;"
+                   onmouseover="this.style.transform='translateY(-2px)'"
+                   onmouseout="this.style.transform='translateY(0)'">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                     style="width:44px; height:44px; background:#fff4f4;">
+                  <i class="fa-solid <%= icon %>" style="color:#ff385c;"></i>
+                </div>
+                <div>
+                  <div class="fw-bold text-dark" style="font-size:0.92rem;"><%= title %></div>
+                  <div class="text-muted" style="font-size:0.82rem;"><%= desc %></div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-muted ms-auto" style="font-size:0.75rem;"></i>
+              </div>
+            </a>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <h5 class="fw-bold mb-3">Frequently Asked Questions</h5>
+      <div class="accordion" id="accAccordion">
+        <% [
+          ['How do I create an account?',
+           'Click <strong>Sign up</strong> in the navbar. Enter your username, email address, and password, then click the Sign Up button. You will be logged in automatically.'],
+          ['How do I log in?',
+           'Click the hamburger menu icon in the top right of the navbar, then click <strong>Log in</strong>. Enter your username and password to access your account.'],
+          ['I forgot my password. What do I do?',
+           'Password reset is coming soon. For now, please contact our support team using the Chat button below and we will help you regain access.'],
+          ['How do I log out?',
+           'Click the hamburger menu icon in the navbar. You will see a <strong>Log out</strong> option at the bottom of the dropdown menu.'],
+          ['How do I update my profile?',
+           'Profile editing is coming soon. You will be able to update your name, photo, and bio from your profile page.'],
+          ['How do I change my password?',
+           'Password change is coming soon. For now, contact our support team if you need to change your password.'],
+          ['How do I delete my account?',
+           'Please contact our support team to request account deletion. We will process your request within 7 business days.'],
+          ['Can I have multiple accounts?',
+           'No, each email address can only be associated with one Wanderlust account. If you need help, contact our support team.'],
+        ].forEach(([q, a], i) => { %>
+          <div class="accordion-item border-0 mb-2 rounded-3 shadow-sm overflow-hidden">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button <%= i > 0 ? 'collapsed' : '' %> fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#acc<%= i %>"
+                style="background:#fff;">
+                <%= q %>
+              </button>
+            </h2>
+            <div
+              id="acc<%= i %>"
+              class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>"
+              data-bs-parent="#accAccordion">
+              <div class="accordion-body text-muted"
+                   style="font-size:0.92rem; line-height:1.7;">
+                <%- a %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Logged in / Logged out state -->
+      <% if(currUser) { %>
+        <div class="card border-0 rounded-4 p-4 mt-4" style="background:#fff4f4;">
+          <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                 style="width:48px; height:48px; font-size:1.2rem;">
+              <%= currUser.username[0].toUpperCase() %>
+            </div>
+            <div>
+              <div class="fw-bold" style="font-size:1rem;">
+                Logged in as <span style="color:#ff385c;">@<%= currUser.username %></span>
+              </div>
+              <div class="text-muted" style="font-size:0.85rem;">
+                <i class="fa-solid fa-circle-check text-success me-1"></i>
+                Your account is active
+              </div>
+            </div>
+            <a href="/logout"
+               class="btn btn-outline-danger rounded-3 ms-auto fw-semibold px-3"
+               style="font-size:0.84rem;">
+              <i class="fa-solid fa-right-from-bracket me-1"></i>Log out
+            </a>
+          </div>
+        </div>
+      <% } else { %>
+        <div class="card border-0 bg-light rounded-4 p-4 mt-4 text-center">
+          <i class="fa-solid fa-user-circle fa-2x mb-3 text-muted"></i>
+          <h6 class="fw-bold mb-1">Not logged in</h6>
+          <p class="text-muted mb-3" style="font-size:0.88rem;">
+            Create an account or log in to manage your listings and bookings.
+          </p>
+          <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="/signup"
+               class="btn rounded-3 fw-semibold px-4"
+               style="background:#ff385c; color:#fff; border:none;">
+              <i class="fa-solid fa-user-plus me-2"></i>Sign up
+            </a>
+            <a href="/login"
+               class="btn btn-outline-dark rounded-3 fw-semibold px-4">
+              <i class="fa-solid fa-right-to-bracket me-2"></i>Log in
+            </a>
+          </div>
+        </div>
+      <% } %>
+
+      <!-- Contact support -->
+      <div class="card border-0 bg-light rounded-4 p-4 mt-4 text-center">
+        <h6 class="fw-bold mb-2">Still need account help?</h6>
+        <p class="text-muted mb-3" style="font-size:0.88rem;">
+          Our support team is available 24/7
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn rounded-3 fw-semibold px-4"
+                  style="background:#ff385c; color:#fff; border:none;">
+            <i class="fa-solid fa-message me-2"></i>Chat with us
+          </button>
+          <button class="btn btn-outline-dark rounded-3 fw-semibold px-4">
+            <i class="fa-solid fa-envelope me-2"></i>Email support
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

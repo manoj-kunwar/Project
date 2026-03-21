@@ -1,0 +1,34 @@
+<% layout("layouts/boilerplate") %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <a href="/help" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Help Centre
+      </a>
+      <h2 class="fw-bold mb-4"><i class="fa-solid fa-star me-2" style="color:#ff385c;"></i>Reviews</h2>
+      <div class="accordion" id="reviewAccordion">
+        <% [
+          ['How do I leave a review?', 'Go to the listing page after your stay and scroll down to the Leave a Review section. Select your star rating and write your comment.'],
+          ['Can I edit my review?', 'Currently reviews cannot be edited after submission. Please take care when writing your review.'],
+          ['How do I delete my review?', 'Click the Delete button on your review card. Only you can delete your own reviews.'],
+          ['Why is my review not showing?', 'Reviews appear immediately after submission. If yours is not showing, try refreshing the page.'],
+          ['Can a host respond to my review?', 'This feature is coming soon. Hosts will be able to respond to guest reviews in a future update.'],
+        ].forEach(([q, a], i) => { %>
+          <div class="accordion-item border-0 mb-2 rounded-3 shadow-sm overflow-hidden">
+            <h2 class="accordion-header">
+              <button class="accordion-button <%= i > 0 ? 'collapsed' : '' %> fw-semibold"
+                      type="button" data-bs-toggle="collapse"
+                      data-bs-target="#rev<%= i %>">
+                <%= q %>
+              </button>
+            </h2>
+            <div id="rev<%= i %>" class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>"
+                 data-bs-parent="#reviewAccordion">
+              <div class="accordion-body text-muted"><%= a %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>

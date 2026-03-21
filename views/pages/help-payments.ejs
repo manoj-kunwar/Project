@@ -1,0 +1,90 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <a href="/help" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Help Centre
+      </a>
+
+      <h2 class="fw-bold mb-2">
+        <i class="fa-solid fa-rupee-sign me-2" style="color:#ff385c;"></i>Payments & Pricing
+      </h2>
+      <p class="text-muted mb-4">Everything you need to know about payments, refunds, and pricing.</p>
+
+      <div class="accordion" id="payAccordion">
+        <% [
+          ['How is the price calculated?',
+           'The price shown is the base price per night set by the host. Additional taxes (18% GST) may apply depending on your toggle setting on the listings page.'],
+          ['When am I charged for a booking?',
+           'Payment is processed at the time of booking confirmation. You will see the total charge including any applicable taxes before confirming.'],
+          ['How do I get a refund?',
+           'Refunds depend on the cancellation policy of the listing. If the host cancels, you will receive a full refund automatically within 5-7 business days.'],
+          ['What payment methods are accepted?',
+           'We accept all major credit and debit cards, UPI, and net banking. Payment is processed securely through our payment gateway.'],
+          ['How do hosts receive payouts?',
+           'Hosts receive payouts after a guest checks in. Payouts are transferred directly to the host\'s registered bank account within 1-3 business days.'],
+          ['Why was my payment declined?',
+           'Payments can be declined due to insufficient funds, incorrect card details, or bank security checks. Please contact your bank or try a different payment method.'],
+          ['Is my payment information secure?',
+           'Yes. We use industry-standard SSL encryption and never store your full card details. All transactions are processed through certified secure payment gateways.'],
+        ].forEach(([q, a], i) => { %>
+          <div class="accordion-item border-0 mb-2 rounded-3 shadow-sm overflow-hidden">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button <%= i > 0 ? 'collapsed' : '' %> fw-semibold"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#pay<%= i %>"
+                style="background:#fff;">
+                <%= q %>
+              </button>
+            </h2>
+            <div
+              id="pay<%= i %>"
+              class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>"
+              data-bs-parent="#payAccordion">
+              <div class="accordion-body text-muted" style="font-size:0.92rem; line-height:1.7;">
+                <%= a %>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- GST Info Card -->
+      <div class="card border-0 rounded-4 p-4 mt-4"
+           style="background:#fff4f4;">
+        <div class="d-flex align-items-start gap-3">
+          <i class="fa-solid fa-circle-info mt-1" style="color:#ff385c; font-size:1.2rem;"></i>
+          <div>
+            <div class="fw-bold mb-1">About GST on Wanderlust</div>
+            <p class="text-muted mb-0" style="font-size:0.88rem; line-height:1.6;">
+              As per Indian government regulations, an 18% GST is applicable on accommodation services.
+              You can toggle the tax display on the listings page to see prices with or without taxes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Support -->
+      <div class="card border-0 bg-light rounded-4 p-4 mt-4 text-center">
+        <h6 class="fw-bold mb-2">Have a payment issue?</h6>
+        <p class="text-muted mb-3" style="font-size:0.88rem;">
+          Our billing team is available Mon–Sat, 9am–6pm IST
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn rounded-3 fw-semibold px-4"
+                  style="background:#ff385c; color:#fff; border:none;">
+            <i class="fa-solid fa-message me-2"></i>Chat with billing
+          </button>
+          <button class="btn btn-outline-dark rounded-3 fw-semibold px-4">
+            <i class="fa-solid fa-envelope me-2"></i>Email billing
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,148 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Header -->
+      <div class="text-center mb-5">
+        <i class="fa-regular fa-circle-question fa-3x mb-3" style="color:#ff385c;"></i>
+        <h2 class="fw-bold">Help Centre</h2>
+        <p class="text-muted">How can we help you?</p>
+
+        <!-- Search -->
+        <div class="input-group mt-3" style="max-width:500px; margin:0 auto;">
+          <input type="text" id="helpSearch" class="form-control rounded-start-pill py-3 px-4"
+                 placeholder="Search for help..." style="border-color:#ddd;"
+                 oninput="filterHelp(this.value)" />
+          <button class="btn rounded-end-pill px-4"
+                  style="background:#ff385c; color:#fff; border:none;">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Help Topics -->
+      <div class="row g-4 mb-5" id="helpCards">
+
+        <div class="col-md-4 help-card" data-topic="home listing">
+          <a href="/help/home" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-house fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Your home</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                Managing your listing, pricing, and availability
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 help-card" data-topic="booking reservations cancellation">
+          <a href="/help/booking" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-calendar fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Booking & reservations</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                Booking requests, cancellations, and check-ins
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 help-card" data-topic="payment pricing refund payout">
+          <a href="/help/payments" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-rupee-sign fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Payments & pricing</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                Payouts, refunds, and pricing tools
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 help-card" data-topic="safety security report">
+          <a href="/help/safety" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-shield-halved fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Safety & security</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                Safety tips, policies, and reporting
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 help-card" data-topic="reviews rating feedback">
+          <a href="/help/reviews" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-star fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Reviews</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                How reviews work and responding to feedback
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4 help-card" data-topic="account profile settings verification">
+          <a href="/help/account" class="text-decoration-none">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 text-center"
+                 style="cursor:pointer; transition:transform 0.2s;"
+                 onmouseover="this.style.transform='translateY(-4px)'"
+                 onmouseout="this.style.transform='translateY(0)'">
+              <i class="fa-solid fa-user fa-2x mb-3" style="color:#ff385c;"></i>
+              <h6 class="fw-bold text-dark">Account & profile</h6>
+              <p class="text-muted mb-0" style="font-size:0.85rem;">
+                Account settings, verification, and profile
+              </p>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Contact Support -->
+      <div class="card border-0 bg-light rounded-4 p-4 text-center">
+        <h5 class="fw-bold mb-2">Still need help?</h5>
+        <p class="text-muted mb-3" style="font-size:0.9rem;">
+          Our support team is available 24/7
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <button class="btn rounded-3 fw-semibold px-4"
+                  style="background:#ff385c; color:#fff; border:none;">
+            <i class="fa-solid fa-message me-2"></i>Chat with us
+          </button>
+          <button class="btn btn-outline-dark rounded-3 fw-semibold px-4">
+            <i class="fa-solid fa-envelope me-2"></i>Email support
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function filterHelp(val) {
+    document.querySelectorAll('.help-card').forEach(card => {
+      const topic = card.dataset.topic || '';
+      card.style.display = topic.includes(val.toLowerCase()) ? '' : 'none';
+    });
+  }
+</script>

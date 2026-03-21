@@ -1,0 +1,94 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <!-- Hero -->
+      <div class="text-center mb-5">
+        <i class="fa-solid fa-handshake fa-3x mb-3" style="color:#ff385c;"></i>
+        <h2 class="fw-bold">Find a co-host</h2>
+        <p class="text-muted" style="max-width:520px; margin:0 auto;">
+          A co-host can help you manage your listing, welcome guests,
+          and keep your space in great shape — giving you more freedom.
+        </p>
+      </div>
+
+      <!-- Two options -->
+      <div class="row g-4 mb-5">
+
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <i class="fa-solid fa-magnifying-glass fa-2x mb-3" style="color:#ff385c;"></i>
+            <h5 class="fw-bold mb-2">I need a co-host</h5>
+            <p class="text-muted mb-4" style="font-size:0.88rem; line-height:1.7;">
+              Find an experienced co-host in your area who can help
+              manage your property, communicate with guests, and
+              handle check-ins and check-outs.
+            </p>
+            <% if(currUser) { %>
+              <button class="btn rounded-3 fw-semibold w-100"
+                      style="background:#ff385c; color:#fff; border:none;">
+                <i class="fa-solid fa-search me-2"></i>Find a co-host
+              </button>
+            <% } else { %>
+              <a href="/login" class="btn rounded-3 fw-semibold w-100"
+                 style="background:#ff385c; color:#fff; border:none;">
+                Log in to find a co-host
+              </a>
+            <% } %>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card border-0 shadow-sm rounded-4 p-4 h-100">
+            <i class="fa-solid fa-star fa-2x mb-3" style="color:#ff385c;"></i>
+            <h5 class="fw-bold mb-2">I want to co-host</h5>
+            <p class="text-muted mb-4" style="font-size:0.88rem; line-height:1.7;">
+              Earn money by helping other hosts manage their properties.
+              Set your own schedule and services — cleaning, check-ins,
+              guest communication, and more.
+            </p>
+            <% if(currUser) { %>
+              <button class="btn btn-outline-dark rounded-3 fw-semibold w-100">
+                <i class="fa-solid fa-hand-raise me-2"></i>Become a co-host
+              </button>
+            <% } else { %>
+              <a href="/login" class="btn btn-outline-dark rounded-3 fw-semibold w-100">
+                Log in to become a co-host
+              </a>
+            <% } %>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Benefits -->
+      <div class="card border-0 bg-light rounded-4 p-4">
+        <h5 class="fw-bold mb-4">Benefits of co-hosting</h5>
+        <div class="row g-3">
+          <% [
+            ['fa-clock','More free time','Let your co-host handle day-to-day tasks'],
+            ['fa-rupee-sign','Earn more','Co-hosts help increase booking rates'],
+            ['fa-shield-halved','Peace of mind','Professional management for your property'],
+            ['fa-star','Better reviews','Happy guests leave better ratings'],
+          ].forEach(([icon, title, desc]) => { %>
+            <div class="col-md-6">
+              <div class="d-flex gap-3 align-items-start">
+                <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                     style="width:40px; height:40px; background:#fff4f4;">
+                  <i class="fa-solid <%= icon %>" style="color:#ff385c;"></i>
+                </div>
+                <div>
+                  <div class="fw-semibold" style="font-size:0.92rem;"><%= title %></div>
+                  <div class="text-muted" style="font-size:0.84rem;"><%= desc %></div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

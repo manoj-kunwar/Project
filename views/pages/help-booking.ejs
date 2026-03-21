@@ -1,0 +1,34 @@
+<% layout("layouts/boilerplate") %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <a href="/help" class="text-muted text-decoration-none mb-3 d-inline-block">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Help Centre
+      </a>
+      <h2 class="fw-bold mb-4"><i class="fa-solid fa-calendar me-2" style="color:#ff385c;"></i>Booking & Reservations</h2>
+      <div class="accordion" id="bookAccordion">
+        <% [
+          ['How do I make a booking?', 'Browse listings, click on one you like, select your dates and number of guests, then click Reserve.'],
+          ['How do I cancel a booking?', 'Go to your booking page and click Cancel. Cancellation policies vary per listing.'],
+          ['What is the check-in process?', 'The host will provide check-in instructions. Coordinate with your host for key handover or self check-in details.'],
+          ['Can I modify my booking dates?', 'Contact the host directly to request date changes. Both parties must agree to any modifications.'],
+          ['What if the host cancels?', 'If a host cancels, you will receive a full refund. We will also help you find a similar place to stay.'],
+        ].forEach(([q, a], i) => { %>
+          <div class="accordion-item border-0 mb-2 rounded-3 shadow-sm overflow-hidden">
+            <h2 class="accordion-header">
+              <button class="accordion-button <%= i > 0 ? 'collapsed' : '' %> fw-semibold"
+                      type="button" data-bs-toggle="collapse"
+                      data-bs-target="#book<%= i %>">
+                <%= q %>
+              </button>
+            </h2>
+            <div id="book<%= i %>" class="accordion-collapse collapse <%= i === 0 ? 'show' : '' %>"
+                 data-bs-parent="#bookAccordion">
+              <div class="accordion-body text-muted"><%= a %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</div>

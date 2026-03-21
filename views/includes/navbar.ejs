@@ -68,244 +68,303 @@
   </div>
 </nav>  -->
 <style>
-  .btn:focus,
-  .btn:active,
-  .btn:focus-visible,
-  .dropdown-toggle:focus,
-  .dropdown-toggle:active,
-  .navbar-toggler:focus {
-    box-shadow: none !important;
-    outline: none !important;
+  /* Category Bar */
+  .cat-bar-wrapper {
+    background: #fff;
+    border-bottom: 1px solid #ebebeb;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
-  #abMenuBtn:focus,
-  #abMenuBtn:active,
-  #abMenuBtn[aria-expanded="true"] {
-    background-color: #f7f7f7 !important;
-    border-color: #ddd !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
-    outline: none !important;
+  .cat-bar {
+    display: flex; align-items: center;
+    overflow-x: auto; scrollbar-width: none; flex: 1;
   }
-  .btn-light:focus,
-  .btn-light:active {
-    background-color: #f7f7f7 !important;
-    box-shadow: none !important;
-    outline: none !important;
+  .cat-bar::-webkit-scrollbar { display: none; }
+  .cat-item {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 6px; padding: 16px 16px 12px; cursor: pointer;
+    border-bottom: 2px solid transparent; color: #717171;
+    font-size: 0.72rem; font-weight: 500; white-space: nowrap;
+    transition: color 0.15s; text-decoration: none; flex-shrink: 0;
   }
-  .navbar input:focus {
-    outline: none !important;
-    box-shadow: none !important;
+  .cat-item i { font-size: 1.25rem; }
+  .cat-item:hover { color: #222; border-bottom: 2px solid #b0b0b0; }
+  .cat-item.active { color: #222; border-bottom: 2px solid #222; font-weight: 700; }
+  .cat-scroll-btn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #fff; border: 1px solid #ddd;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 0.7rem; color: #222; flex-shrink: 0;
   }
-  .dropdown-item:hover {
-    background-color: #f7f7f7 !important;
-    color: #222 !important;
+
+  /* Tax toggle — full on desktop, icon only on mobile */
+  .tax-toggle-wrap {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 14px;
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.84rem;
+    gap: 6px;
   }
-  .dropdown-item:focus,
-  .dropdown-item:active {
-    background-color: #f7f7f7 !important;
-    color: #222 !important;
-    outline: none !important;
+  .tax-label {
+    display: inline;
   }
+
+  /* On mobile — hide tax label text, show only toggle switch */
+  @media (max-width: 576px) {
+    .tax-label { display: none; }
+    .tax-toggle-wrap {
+      padding: 6px 10px;
+      margin-left: 6px;
+      border-radius: 14px;
+    }
+    .cat-item {
+      padding: 14px 12px 10px;
+      font-size: 0.68rem;
+    }
+    .cat-item i { font-size: 1.15rem; }
+
+    /* Show only 3 items worth of space — rest scrollable */
+    .cat-bar {
+      scroll-snap-type: x mandatory;
+    }
+    .cat-item {
+      scroll-snap-align: start;
+      min-width: calc(100vw / 3.5);
+    }
+  }
+
+  /* Listing Card */
+  .listing-link { text-decoration: none; color: inherit; }
+  .listing-img-wrap {
+    position: relative; border-radius: 16px;
+    overflow: hidden; aspect-ratio: 1 / 1; background: #f0f0f0;
+  }
+  .listing-img-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; transition: transform 0.3s ease;
+  }
+  .listing-link:hover .listing-img-wrap img { transform: scale(1.03); }
+  .listing-heart {
+    position: absolute; top: 12px; right: 12px;
+    background: transparent; border: none; cursor: pointer;
+    font-size: 1.4rem; text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    transition: transform 0.2s; z-index: 2; padding: 0; line-height: 1;
+  }
+  .listing-heart:hover { transform: scale(1.2); }
+  .listing-heart .fa-heart { color: rgba(255,255,255,0.9); transition: color 0.2s; }
+  .listing-heart.liked .fa-heart { color: #ff385c; }
+  .listing-heart.liked .fa-regular { display: none; }
+  .listing-heart:not(.liked) .fa-solid { display: none; }
+  .listing-title {
+    font-size: 0.95rem; font-weight: 700; color: #222;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    flex: 1; min-width: 0;
+  }
+  .listing-location {
+    font-size: 0.82rem; color: #717171;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .tax-info { display: none; }
+  .heart-toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: #222; color: #fff; padding: 12px 24px; border-radius: 30px;
+    font-size: 0.88rem; font-weight: 500; z-index: 9999; opacity: 0;
+    transition: opacity 0.3s; pointer-events: none; white-space: nowrap;
+  }
+  .heart-toast.show { opacity: 1; }
 </style>
 
-<nav class="navbar navbar-expand-md bg-white border-bottom sticky-top shadow-sm" style="z-index:999;">
-  <div class="container-fluid px-4">
+<!-- CATEGORY BAR -->
+<div class="cat-bar-wrapper">
+  <button class="cat-scroll-btn" onclick="scrollCat(-200)">
+    <i class="fa-solid fa-chevron-left"></i>
+  </button>
 
-    <!-- LOGO -->
-    <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="/listings">
-       <i class="fa-brands fa-artstation"></i>
+  <div class="cat-bar" id="catBar">
+    <a class="cat-item <%= !category ? 'active' : '' %>" href="/listings">
+      <i class="fa-solid fa-house"></i>All
     </a>
+    <a class="cat-item <%= category==='trending' ? 'active':'' %>" href="/listings?category=trending">
+      <i class="fa-solid fa-fire"></i>Trending
+    </a>
+    <a class="cat-item <%= category==='rooms' ? 'active':'' %>" href="/listings?category=rooms">
+      <i class="fa-solid fa-bed"></i>Rooms
+    </a>
+    <a class="cat-item <%= category==='iconic-cities' ? 'active':'' %>" href="/listings?category=iconic-cities">
+      <i class="fa-solid fa-mountain-city"></i>Iconic Cities
+    </a>
+    <a class="cat-item <%= category==='mountains' ? 'active':'' %>" href="/listings?category=mountains">
+      <i class="fa-solid fa-mountain"></i>Mountains
+    </a>
+    <a class="cat-item <%= category==='castles' ? 'active':'' %>" href="/listings?category=castles">
+      <i class="fa-brands fa-fort-awesome"></i>Castles
+    </a>
+    <a class="cat-item <%= category==='amazing-pools' ? 'active':'' %>" href="/listings?category=amazing-pools">
+      <i class="fa-solid fa-person-swimming"></i>Amazing Pools
+    </a>
+    <a class="cat-item <%= category==='camping' ? 'active':'' %>" href="/listings?category=camping">
+      <i class="fa-solid fa-campground"></i>Camping
+    </a>
+    <a class="cat-item <%= category==='farms' ? 'active':'' %>" href="/listings?category=farms">
+      <i class="fa-solid fa-cow"></i>Farms
+    </a>
+    <a class="cat-item <%= category==='arctic' ? 'active':'' %>" href="/listings?category=arctic">
+      <i class="fa-regular fa-snowflake"></i>Arctic
+    </a>
+    <a class="cat-item <%= category==='domes' ? 'active':'' %>" href="/listings?category=domes">
+      <i class="fa-solid fa-igloo"></i>Domes
+    </a>
+    <a class="cat-item <%= category==='boats' ? 'active':'' %>" href="/listings?category=boats">
+      <i class="fa-solid fa-ship"></i>Boats
+    </a>
+  </div>
 
-    <!-- CENTER SEARCH BAR -->
-    <div class="d-none d-md-flex flex-grow-1 justify-content-center px-4">
-      <form
-        action="/listings"
-        method="GET"
-        class="d-flex align-items-stretch bg-white rounded-pill w-100"
-        style="border:1px solid #ddd; box-shadow:0 1px 4px rgba(0,0,0,0.1); max-width:680px; height:48px;">
+  <button class="cat-scroll-btn" onclick="scrollCat(200)">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
 
-        <!-- Where -->
-        <div class="d-flex flex-column justify-content-center px-3 flex-grow-1" style="min-width:0;">
-          <div style="font-size:0.62rem; font-weight:800; color:#222; line-height:1;">Where</div>
-          <input
-            type="text"
-            name="search"
-            placeholder="Search destinations"
-            value="<%= typeof search !== 'undefined' ? search : '' %>"
-            class="border-0 p-0 bg-transparent"
-            style="font-size:0.82rem; color:#717171; outline:none; width:100%; box-shadow:none;"
-            autocomplete="off" />
-        </div>
-
-        <div class="my-2 flex-shrink-0" style="width:1px; background:#ddd;"></div>
-
-        <!-- When -->
-        <div class="d-flex flex-column justify-content-center px-3 flex-grow-1" style="min-width:110px;">
-          <div style="font-size:0.62rem; font-weight:800; color:#222; line-height:1;">When</div>
-          <input
-            type="text"
-            name="when"
-            placeholder="Add dates"
-            class="border-0 p-0 bg-transparent"
-            style="font-size:0.82rem; color:#717171; outline:none; width:100%; box-shadow:none;" />
-        </div>
-
-        <div class="my-2 flex-shrink-0" style="width:1px; background:#ddd;"></div>
-
-        <!-- Who -->
-        <div class="d-flex flex-column justify-content-center px-3" style="min-width:90px;">
-          <div style="font-size:0.62rem; font-weight:800; color:#222; line-height:1;">Who</div>
-          <input
-            type="number"
-            name="guests"
-            placeholder="Add guests"
-            min="1"
-            class="border-0 p-0 bg-transparent"
-            style="font-size:0.82rem; color:#717171; outline:none; width:80px; box-shadow:none;" />
-        </div>
-
-        <!-- Search Button -->
-        <button
-          type="submit"
-          class="btn d-flex align-items-center justify-content-center rounded-circle flex-shrink-0 m-1"
-          style="width:38px; height:38px; background:#ff385c; color:#fff; border:none;
-                 box-shadow:none !important; outline:none !important;">
-          <i class="fa-solid fa-magnifying-glass" style="font-size:0.85rem;"></i>
-        </button>
-
-      </form>
-    </div>
-
-    <!-- RIGHT SIDE -->
-    <div class="d-flex align-items-center gap-1 ms-auto">
-
-      <!-- Become a host -->
-      <a href="/listings/new"
-         class="d-none d-md-block text-decoration-none fw-semibold text-dark px-3 py-2 rounded-pill"
-         style="font-size:0.88rem; transition:background 0.15s;"
-         onmouseover="this.style.background='#f7f7f7'"
-         onmouseout="this.style.background='transparent'">
-        Become a host
-      </a>
-
-      <!-- Globe -->
-      <button
-        class="btn border-0 rounded-circle d-flex align-items-center justify-content-center"
-        style="width:38px; height:38px; background:transparent;
-               box-shadow:none !important; outline:none !important;"
-        onmouseover="this.style.background='#f7f7f7'"
-        onmouseout="this.style.background='transparent'">
-        <i class="fa-solid fa-globe text-dark"></i>
-      </button>
-
-      <!-- Hamburger + Avatar dropdown -->
-      <div class="dropdown">
-        <button
-          class="btn bg-white border d-flex align-items-center gap-2 rounded-pill px-3 py-2"
-          type="button"
-          id="abMenuBtn"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style="border-color:#ddd !important;
-                 box-shadow:none !important;
-                 outline:none !important;
-                 transition: box-shadow 0.2s;">
-          <i class="fa-solid fa-bars text-dark" style="font-size:0.85rem;"></i>
-          <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-semibold"
-               style="width:28px; height:28px; font-size:0.8rem;">
-            <% if(currUser) { %>
-              <%= currUser.username[0].toUpperCase() %>
-            <% } else { %>
-              <i class="fa-solid fa-user" style="font-size:0.7rem;"></i>
-            <% } %>
-          </div>
-        </button>
-
-        <!-- DROPDOWN MENU -->
-        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 mt-2 py-2"
-            style="min-width:260px;">
-
-          <!-- ✅ Help Centre — linked -->
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/help">
-              <i class="fa-regular fa-circle-question text-secondary"></i>
-              Help Centre
-            </a>
-          </li>
-
-          <li><hr class="dropdown-divider my-1"></li>
-
-          <!-- Become a host promo -->
-          <li>
-            <a class="dropdown-item d-flex align-items-center justify-content-between gap-2 py-3"
-               href="/listings/new">
-              <div>
-                <div class="fw-bold" style="font-size:0.9rem;">Become a host</div>
-                <div class="text-muted" style="font-size:0.78rem; line-height:1.4;">
-                  It's easy to start hosting and<br>earn extra income.
-                </div>
-              </div>
-              <img
-                src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-1.0/Hosting_illustration.png"
-                onerror="this.style.display='none'"
-                alt="host"
-                style="width:48px; height:48px; object-fit:contain; flex-shrink:0;" />
-            </a>
-          </li>
-
-          <li><hr class="dropdown-divider my-1"></li>
-
-          <!-- ✅ Refer a host — linked -->
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/refer-host">
-              <i class="fa-solid fa-user-group text-secondary"></i>
-              Refer a host
-            </a>
-          </li>
-
-          <!-- ✅ Find a co-host — linked -->
-          <li>
-            <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/co-host">
-              <i class="fa-solid fa-handshake text-secondary"></i>
-              Find a co-host
-            </a>
-          </li>
-
-          <li><hr class="dropdown-divider my-1"></li>
-
-          <!-- Auth links -->
-          <% if(!currUser) { %>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-3 py-3 fw-bold" href="/signup">
-                <i class="fa-solid fa-user-plus text-secondary"></i>
-                Sign up
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/login">
-                <i class="fa-solid fa-right-to-bracket text-secondary"></i>
-                Log in
-              </a>
-            </li>
-          <% } %>
-
-          <% if(currUser) { %>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/listings/new">
-                <i class="fa-solid fa-house-chimney text-secondary"></i>
-                Add your home
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center gap-3 py-3" href="/logout">
-                <i class="fa-solid fa-right-from-bracket text-secondary"></i>
-                Log out
-              </a>
-            </li>
-          <% } %>
-
-        </ul>
-      </div>
-
+  <!-- Tax Toggle — label hidden on mobile -->
+  <div class="tax-toggle-wrap">
+    <div class="form-check form-switch mb-0">
+      <input class="form-check-input" type="checkbox" role="switch" id="taxSwitch">
+      <label class="form-check-label tax-label" for="taxSwitch">
+        Display total after taxes
+      </label>
     </div>
   </div>
-</nav>
+</div>
+
+<!-- SEARCH RESULT INFO -->
+<% if (search && search.trim() !== '') { %>
+  <div class="container-fluid px-3 px-md-5 mt-3 mb-1">
+    <div class="d-flex align-items-center justify-content-between">
+      <p class="text-muted mb-0" style="font-size:0.88rem;">
+        <% if (allListings.length > 0) { %>
+          <strong class="text-dark"><%= allListings.length %></strong>
+          result<%= allListings.length > 1 ? 's' : '' %> for
+          "<strong class="text-dark"><%= search %></strong>"
+        <% } else { %>
+          No results for "<strong class="text-dark"><%= search %></strong>"
+        <% } %>
+      </p>
+      <a href="/listings" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+        <i class="fa-solid fa-xmark me-1"></i>Clear
+      </a>
+    </div>
+  </div>
+<% } %>
+
+<!-- LISTINGS GRID -->
+<div class="container-fluid px-3 px-md-5 mt-4 pb-5">
+  <% if (allListings.length === 0) { %>
+    <div class="text-center py-5 text-muted">
+      <i class="fa-solid fa-magnifying-glass fa-3x mb-3 d-block" style="color:#ddd;"></i>
+      <h4 class="fw-bold text-dark">No listings found</h4>
+      <p>Try a different category or
+        <a href="/listings" class="text-dark fw-semibold">view all</a>
+      </p>
+    </div>
+  <% } else { %>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+      <% for (let listing of allListings) { %>
+        <%
+          let avgRating = null;
+          try {
+            if (listing.reviews && listing.reviews.length > 0) {
+              let valid = listing.reviews.filter(r =>
+                r && r.rating != null && !isNaN(Number(r.rating))
+              );
+              if (valid.length > 0) {
+                let total = valid.reduce((s, r) => s + Number(r.rating), 0);
+                let avg = total / valid.length;
+                avgRating = isNaN(avg) ? null : avg.toFixed(1);
+              }
+            }
+          } catch(e) { avgRating = null; }
+        %>
+        <div class="col">
+          <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="listing-img-wrap">
+              <img src="<%= listing.image.url %>" alt="<%= listing.title %>" loading="lazy" />
+              <button class="listing-heart" onclick="toggleHeart(event, this)"
+                      data-logged-in="<%= currUser ? 'true' : 'false' %>">
+                <i class="fa-regular fa-heart"></i>
+                <i class="fa-solid fa-heart"></i>
+              </button>
+            </div>
+            <div class="mt-2 px-1">
+              <div class="d-flex align-items-center justify-content-between gap-2">
+                <div class="listing-title"><%= listing.title %></div>
+                <div class="d-flex align-items-center gap-1 flex-shrink-0"
+                     style="font-size:0.82rem; font-weight:600; color:#222;">
+                  <% if (avgRating !== null) { %>
+                    <i class="fa-solid fa-star" style="font-size:0.75rem;"></i>
+                    <%= avgRating %>
+                  <% } else { %>
+                    <span class="text-muted fw-normal" style="font-size:0.78rem;">New</span>
+                  <% } %>
+                </div>
+              </div>
+              <div class="listing-location mt-1">
+                <%= listing.location %>, <%= listing.country %>
+              </div>
+              <div class="mt-1" style="font-size:0.88rem; color:#222;">
+                <strong>&#8377;<%= listing.price.toLocaleString("en-IN") %></strong> /night
+                <i class="tax-info text-muted" style="font-size:0.78rem;">&nbsp;+18% GST</i>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+<div class="heart-toast" id="heartToast"></div>
+
+<script>
+  function scrollCat(amount) {
+    document.getElementById('catBar').scrollBy({ left: amount, behavior: 'smooth' });
+  }
+  document.getElementById("taxSwitch").addEventListener("click", () => {
+    document.querySelectorAll(".tax-info").forEach(el => {
+      el.style.display = el.style.display === "inline" ? "none" : "inline";
+    });
+  });
+  function toggleHeart(event, btn) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (btn.dataset.loggedIn !== 'true') {
+      window.location.href = '/login';
+      return;
+    }
+    const isLiked = btn.classList.contains('liked');
+    if (isLiked) {
+      btn.classList.remove('liked');
+      btn.querySelectorAll('.fa-heart').forEach(i => i.style.color = 'rgba(255,255,255,0.9)');
+      showToast('🤍 Removed from wishlist');
+    } else {
+      btn.classList.add('liked');
+      btn.querySelector('.fa-solid.fa-heart').style.color = '#ff385c';
+      showToast('❤️ Saved to wishlist');
+      btn.style.transform = 'scale(1.4)';
+      setTimeout(() => btn.style.transform = 'scale(1)', 200);
+    }
+  }
+  function showToast(msg) {
+    const toast = document.getElementById('heartToast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+</script>

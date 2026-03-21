@@ -187,27 +187,26 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
-// Passport config
+// Passport
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Flash + user middleware
+// Locals middleware
 app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
+  res.locals.success  = req.flash("success");
+  res.locals.error    = req.flash("error");
   res.locals.currUser = req.user;
+  res.locals.search   = req.query.search || '';  // ← FIX
   next();
 });
 
-
-//  Homepage route 
+// Homepage
 app.get("/", (req, res) => {
   res.redirect("/listings");
 });
-
 
 // Routes
 app.use("/listings", listingRouter);
@@ -215,8 +214,7 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use("/", pagesRouter);
 
-
-// 404 handler
+// 404
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });

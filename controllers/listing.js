@@ -48,6 +48,7 @@ module.exports.renderNewForm = (req, res) => {
 //     console.log(listing);
 //     res.render("listings/show", { listing });
 // };
+
 module.exports.showListing = async (req, res) => {
     let { id } = req.params;
 
